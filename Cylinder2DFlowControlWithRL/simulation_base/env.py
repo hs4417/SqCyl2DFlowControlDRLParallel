@@ -22,7 +22,7 @@ nb_actuations = 100 # Number of actions (NN actuations) taken per episode (Numbe
 simulation_duration = 50
 
 def resume_env(plot=False,  # To plot results (Field, controls, lift, drag, rec area) during training
-               dump_vtu=100,  # If not False, create vtu files of area, velocity, pressure, every 'dump_vtu' steps
+               dump_vtu=False,  # If not False, create vtu files of area, velocity, pressure, every 'dump_vtu' steps
                dump_debug=100,  # If not False, output step info of ep,step,rec_area,L,D,jets Q* to saved_models/debug.csv, every 'dump_debug' steps
                dump_CL=100,  # If not False, output step info of ep,step,rec_area,L,D,jets Q* to command line, every 'dump_CL' steps
                remesh=False,
