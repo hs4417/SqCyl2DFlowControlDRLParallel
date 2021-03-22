@@ -70,7 +70,7 @@ def resume_env(plot=False,  # To plot results (Field, controls, lift, drag, rec 
     solver_params = {'dt': dt}
 
     # Define probes positions
-    probe_distribution = {'distribution_type': 'rabault241',
+    probe_distribution = {'distribution_type': 'inflow64',
                           'probes_at_jets': False,  # Whether to use probes at jets or not (for distributions other than 'rabault151'
                           'n_base': 64}  # Number of probes at cylinder base if 'base' distribution is used
 
@@ -104,7 +104,7 @@ def resume_env(plot=False,  # To plot results (Field, controls, lift, drag, rec 
                         "single_run":single_run
                         }
 
-    reward_function = 'dragwavereduce'
+    reward_function = 'drag_plain_lift'
 
     # Ensure that SI is True only if probes on body base, and record pressure
     output_params['single_input'] = (single_input and probe_distribution['distribution_type'] == 'base' and output_params['probe_type'] == 'pressure')
