@@ -1074,13 +1074,10 @@ class Env2DCylinder(Environment):
             print(np.mean(lift_array_abs))
             return -np.mean(lift_array_abs)   
 
-        elif self.reward_function=='dragwavereduce':
-            drag_array=np.array(self.history_parameters["drag"].get()[int(-7//0.004):])
-            drag_array=signal.detrend(drag_array)
-            drag_array=drag_array-np.mean(drag_array)
-            drag_array_abs=np.absolute(drag_array)
-            print(np.mean(drag_array_abs))
-            return -np.mean(drag_array_abs)  
+        elif self.reward_function=='lift':
+            avg_length = min(500, self.number_steps_execution)
+            avg_lift = np.mean(self.history_parameters["lift"].get()[-avg_length:])
+            return -abs(avg_lift)  
 
         elif self.reward_function=='freq':
             drag_array=np.array(self.history_parameters["drag"].get())
@@ -1088,9 +1085,9 @@ class Env2DCylinder(Environment):
             b=[0.996863335697075,	-2.99059000709123,	2.99059000709123,	-0.996863335697075]
             a=[1,	-2.99371681727665,	2.98745335824285,	-0.993736510057099]
             filter_drag=signal.lfilter(b,a,drag_array)
-            peaki=peakutils.peak.indexes(filter_drag,thres=0.0008,thres_abs=True)
-            troughi=peakutils.peak.indexes(-filter_drag,thres=0.0008,thres_abs=True)
-            amplitude=np.absolute(filter_drag[peaki[-1]])+np.absolute(filter_drag[troughi[-1]])
+            peaks=signal.find_peaks(filter_drag,prominence=0.0002,height=0)
+            troughs=signal.find_peaks(-filter_drag,prominence=0.0002,height=0)
+            amplitude=peaks[1]['peak_heights'][-1]+troughs[1]['peak_heights'][-1]
             print(amplitude)
             return -amplitude
 
