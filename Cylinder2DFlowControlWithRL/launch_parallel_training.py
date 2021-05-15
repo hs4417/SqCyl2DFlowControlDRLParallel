@@ -65,7 +65,7 @@ agent = Agent.create(
     # Regularization
     entropy_regularization=0.01,  # To discourage policy from being too 'certain'
     #Exploration
-    exploration=0.01,
+    #exploration=0.01,
     # TensorFlow etc
     parallel_interactions=number_servers,  # Maximum number of parallel interactions to support
     saver=dict(directory=os.path.join(os.getcwd(), 'saver_data')),  # TensorFlow saver configuration for periodic implicit saving
@@ -81,7 +81,7 @@ runner = Runner(
 )
 
 runner.run(
-    num_episodes=960,
+    num_episodes=600,
     sync_episodes=True,  # Whether to synchronize parallel environment execution on episode-level
 )
 
