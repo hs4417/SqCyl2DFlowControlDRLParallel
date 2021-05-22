@@ -1090,6 +1090,16 @@ class Env2DCylinder(Environment):
             amplitude=peaks[1]['peak_heights'][-1]+troughs[1]['peak_heights'][-1]
             print(amplitude)
             return -amplitude
+        
+        elif self.reward_function=='freqmean':
+            avg_length = min(500, self.number_steps_execution)
+            drag_array=np.array(self.history_parameters["drag"].get())
+            drag_array=drag_array*-2
+            b=[0.993736502353988,-2.981209507061963,2.981209507061963,-0.993736502353988]
+            a=[1,-2.987433650055722,2.974946132665443,-0.987512236110736]
+            filter_drag=signal.lfilter(b,a,drag_array)
+            amplitude=np.sqrt(np.mean(filter_drag[-avg_length:]**2))
+            return -amplitude*10
 
         # TODO: implement some reward functions that take into account how much energy / momentum we inject into the flow
 
